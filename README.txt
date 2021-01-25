@@ -76,6 +76,7 @@ Type and execute inside the console
 2. Virtual Machine running on the computer of point 1: Debian 9, Kernel Version 4.9
 3. Acer Swift 3 Laptop with Windows 10 version 20H2, equipped with Intel Core i5-8250U, 8gb ram ddr4, no dedicated gpu
 4. MacBook Pro late 2013 with MacOs Big Sur 11.1, equipped with Intel Core i5 (dual core version running at 2,4 GHz), 8 gb ram ddr3, integrated gpu Intel Iris with 1536MB
+5. Debian 4.19.160-2
 
 
   ___       __     
