@@ -20,7 +20,7 @@ class Gui:
         self.layout: list = [
             [sg.Text('Search', size=(11,1)),
              sg.Input(size=(40,1), focus=True, key="TERM"),
-             sg.Checkbox('Synimous', size=(8, 1), default=False, key='syn_search')],
+             sg.Checkbox('Synonymous', size=(8, 1), default=False, key='syn_search')],
             [sg.Text('Data Path', size=(11,1)),
              sg.Input(None, size=(40,1), key="PATH"),
              sg.FolderBrowse('Browse', size=(10,1)),
