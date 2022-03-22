@@ -67,10 +67,7 @@ class BuildIndex:
         self.idf = self.inverse_df()
 
     def process_files(self):
-        '''
-        input: filenames
-        output: a dictionary keyed by filename, and with values of its term list
-        '''
+        
         file_to_terms = {}
 
         for file in self.filenames:
@@ -89,18 +86,11 @@ class BuildIndex:
         return file_to_terms
 
     def doc_n(self):
-        '''
-        return the number of docs in the collection
-        '''
         return len(self.file_to_terms)
 
 
     def index_one_file(self, termlist):
-        '''
-        input: termlist of one document.
-        map words to their position for one document
-        output: a dictionary with word as key, position as value.
-        '''
+
         fileIndex = {}
         for index,word in enumerate(termlist):
             if word in fileIndex.keys():
@@ -111,10 +101,6 @@ class BuildIndex:
         return fileIndex
 
     def regular_index(self,termlists):
-        '''
-        input: output of process_files(filenames)
-        output: a dictionary. key: filename, value: a dictionary with word as key, position as value
-        '''
         regdex = {}
 
         for filename in termlists.keys():
@@ -124,10 +110,6 @@ class BuildIndex:
 
 
     def inverted_index(self):
-        '''
-        input： output of make_indexes function.
-        output: dictionary. key: word, value: a dictionary keyed by filename with values of term position for that file.
-        '''
         total_index = {}
         regdex = self.regdex
 
@@ -156,9 +138,6 @@ class BuildIndex:
         return total_index
 
     def docLtable(self):
-        '''
-        output: dict, key:word, value:dict(key: number of docs contaiing that word, value:total_freq)
-        '''
         dltable = {}
         for w in self.invertedIndex.keys():
             total_freq = 0
@@ -170,9 +149,7 @@ class BuildIndex:
         return dltable
 
     def docLen(self):
-        '''
-        return a dict, key: filename, value: document length
-        '''
+
         dl = {}
         for file in self.filenames:
             dl[file]=len(self.file_to_terms[file])
@@ -186,15 +163,13 @@ class BuildIndex:
         return avgdl
 
     def inverse_df(self):
-        '''
-        output: inverse doc freq with key:word, value: idf
-        '''
         idf = {}
         for w in self.df.keys():
             # idf[w] = math.log((self.N - self.df[w] + 0.5)/(self.df[w] + 0.5))
             idf[w] = math.log((self.N +1 )/self.df[w])
         return idf
 
+''' Search Engine '''
 class Ricerca:
     def __init__(self, s):
         q = QueryParsers("cronlogia.txt")
@@ -208,24 +183,16 @@ class Ricerca:
         return ranked_docs
 
     def get_score (s,filename,qlist):
-        '''
-        filename: filename
-        qlist: termlist of the query
-        output: the score for one document
-        '''
+
         score = 0
         for w in s.file_to_terms[filename]:
             if w not in qlist:
                 continue
             wc = len(s.invertedIndex[w][filename])
-            score += s.idf[w] * ((wc)* (s.k+1)) / (wc + s.k *
-                                                                    (1 - s.b + s.b * s.dl[filename] / s.avgdl))
+            score += s.idf[w] * ((wc)* (s.k+1)) / (wc + s.k *(1 - s.b + s.b * s.dl[filename] / s.avgdl))
         return score
 
     def BM25scores(s,qlist):
-        '''
-        Output: a dictionary with filename as key, score as value
-        '''
         total_score = {}
         for doc in s.file_to_terms.keys():
             total_score[doc] = Ricerca.get_score(s,doc,qlist)
